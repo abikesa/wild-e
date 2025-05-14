@@ -3,103 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Einstein vs. Wilde: Epistemic Live Chat</title>
+  <title>Einstein × Wilde: WhatsApp Chat</title>
   <style>
     body {
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       margin: 0;
       font-family: 'Helvetica Neue', sans-serif;
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
     }
-    header {
-      background: linear-gradient(90deg, #333, #111);
-      padding: 1rem;
-      width: 100%;
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      letter-spacing: 1px;
-      border-bottom: 1px solid #444;
+    .iphone {
+      width: 375px;
+      height: 812px;
+      border: 16px solid #000;
+      border-radius: 36px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      background: #fff;
+      position: relative;
+      animation: vibrate 0.2s ease-in-out 4 alternate;
     }
-    .chat-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      flex-grow: 1;
-      width: 100%;
-      max-width: 768px;
-      padding: 1rem;
-      box-sizing: border-box;
+    @keyframes vibrate {
+      0% { transform: translate(0); }
+      25% { transform: translate(2px, 1px); }
+      50% { transform: translate(-2px, -1px); }
+      75% { transform: translate(2px, -1px); }
+      100% { transform: translate(-2px, 1px); }
     }
-    .chat {
-      background-color: #111;
+    .iphone::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 5px;
+      background: #ccc;
+      border-radius: 10px;
+    }
+    .screen {
       width: 100%;
       height: 100%;
       overflow-y: auto;
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 1rem;
+      background-color: #e5ddd5;
+      padding: 60px 16px 80px;
+      box-sizing: border-box;
+      position: relative;
+    }
+    .header {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background-color: #075e54;
+      color: white;
+      padding: 12px 16px;
+      box-sizing: border-box;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .chat-container {
+      display: flex;
+      flex-direction: column;
     }
     .message {
-      margin: 0.5rem 0;
-      max-width: 80%;
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      line-height: 1.4;
+      margin: 10px 0;
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 15px;
+      position: relative;
     }
     .einstein {
-      background-color: #2d2dff;
-      align-self: flex-start;
+      background-color: #dcf8c6;
+      align-self: flex-end;
+      margin-left: auto;
     }
     .wilde {
-      background-color: #ff4b91;
-      align-self: flex-end;
+      background-color: white;
+      align-self: flex-start;
+      margin-right: auto;
+    }
+    .timestamp {
+      font-size: 11px;
+      color: #555;
+      text-align: right;
+      margin-top: 4px;
+    }
+    .typing-indicator {
+      margin-top: 5px;
+      font-size: 12px;
+      color: #999;
+      font-style: italic;
+    }
+    .input-bar {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: white;
+      border-top: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .input-bar input {
+      width: 85%;
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+    }
+    .input-bar button {
+      background: #075e54;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 50%;
+      cursor: pointer;
     }
     .toggle-bar {
-      margin: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
     .toggle-button {
-      background: #222;
-      border: 1px solid #555;
-      padding: 0.5rem 1rem;
-      color: #eee;
-      border-radius: 5px;
+      background: #ddd;
+      border: none;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 12px;
       cursor: pointer;
-      margin: 0 0.5rem;
     }
     .toggle-button.active {
-      background: #0f0;
-      color: #000;
+      background: #25d366;
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <header>Einstein × Wilde | Live Epistemic Chat</header>
-  <div class="chat-wrapper">
-    <div class="toggle-bar">
-      <button class="toggle-button active" onclick="showChat('both')">Both</button>
-      <button class="toggle-button" onclick="showChat('einstein')">Einstein Only</button>
-      <button class="toggle-button" onclick="showChat('wilde')">Wilde Only</button>
-    </div>
-    <div class="chat" id="chatBox">
-      <div class="message einstein">Concepts without unambiguous observables are metaphysical phantoms. We must measure to mean.</div>
-      <div class="message wilde">How dull. I prefer a world where mirrors are smashed, and art walks out of the frame entirely.</div>
-      <div class="message einstein">Time is not absolute; clocks conspire with motion. Even simultaneity is relative to the observer's frame.</div>
-      <div class="message wilde">And yet music always arrives on time. The octave folds time in perfect recursive symmetry, no relativity required.</div>
-      <div class="message einstein">Geometry and gravity are not separate. They are unified in the metric field, g<sub>&mu;&nu;</sub>.</div>
-      <div class="message wilde">Metrics bore me unless they rhyme. Give me a field where the curvature is felt through cadence, not coordinates.</div>
-      <div class="message einstein">Epistemology demands that we ground our frames of reference. Otherwise, our logic floats unmoored in spacetime.
+  <div class="iphone">
+    <div class="screen" id="screen">
+      <div class="header">Einstein × Wilde</div>
+      <div class="toggle-bar">
+        <button class="toggle-button active" onclick="showChat('both')">Both</button>
+        <button class="toggle-button" onclick="showChat('einstein')">Einstein</button>
+        <button class="toggle-button" onclick="showChat('wilde')">Wilde</button>
       </div>
-      <div class="message wilde">But what of metaphor? It floats too—and yet it lands like a blade. Some things strike deeper than measurement.
+      <div class="chat-container" id="chatBox">
+        <div class="message einstein">🧠 Concepts without unambiguous observables are metaphysical phantoms. We must measure to mean.<div class="timestamp">19:01</div></div>
+        <div class="message wilde">🪞 How dull. I prefer a world where mirrors are smashed, and art walks out of the frame entirely.<div class="timestamp">19:02</div></div>
+        <div class="message einstein">⏰ Time is not absolute; clocks conspire with motion. Even simultaneity is relative to the observer's frame.<div class="timestamp">19:03</div></div>
+        <div class="message wilde">🎶 And yet music always arrives on time. The octave folds time in perfect recursive symmetry, no relativity required.<div class="timestamp">19:04</div></div>
+        <div class="message einstein">🌌 Geometry and gravity are not separate. They are unified in the metric field, g<sub>&mu;&nu;</sub>.<div class="timestamp">19:05</div></div>
+        <div class="message wilde">📜 Metrics bore me unless they rhyme. Give me a field where the curvature is felt through cadence, not coordinates.<div class="timestamp">19:06</div></div>
+        <div class="message einstein">📏 Epistemology demands that we ground our frames of reference. Otherwise, our logic floats unmoored in spacetime.<div class="timestamp">19:07</div></div>
+        <div class="message wilde">✒️ But what of metaphor? It floats too—and yet it lands like a blade. Some things strike deeper than measurement.<div class="timestamp">19:08</div></div>
+        <div class="message einstein">🌀 Then perhaps we orbit the same singularity—gravity for me, and aesthetic recursion for you.<div class="timestamp">19:09</div></div>
+        <div class="message wilde">🩰 Indeed. You fall into black holes. I dance on them.<div class="timestamp">19:10</div></div>
+        <div class="typing-indicator" id="typingIndicator">Wilde is typing…</div>
       </div>
-      <div class="message einstein">Then perhaps we orbit the same singularity—gravity for me, and aesthetic recursion for you.</div>
-      <div class="message wilde">Indeed. You fall into black holes. I dance on them.</div>
+      <div class="input-bar">
+        <input type="text" placeholder="Type a message" disabled>
+        <button>&#9658;</button>
+      </div>
     </div>
   </div>
 
@@ -120,6 +188,19 @@
         document.querySelectorAll('.wilde').forEach(msg => msg.style.display = 'block');
         document.querySelectorAll('.einstein').forEach(msg => msg.style.display = 'none');
       }
+      autoScroll();
+    }
+
+    function autoScroll() {
+      const screen = document.getElementById('screen');
+      screen.scrollTop = screen.scrollHeight;
+    }
+
+    window.onload = function() {
+      autoScroll();
+      setTimeout(() => {
+        document.getElementById('typingIndicator').style.display = 'none';
+      }, 3000);
     }
   </script>
 </body>
