@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Einstein vs. Wilde: Epistemic Live Chat</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: linear-gradient(90deg, #333, #111);
+      padding: 1rem;
+      width: 100%;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #444;
+    }
+    .chat-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      flex-grow: 1;
+      width: 100%;
+      max-width: 768px;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+    .chat {
+      background-color: #111;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .message {
+      margin: 0.5rem 0;
+      max-width: 80%;
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+    .einstein {
+      background-color: #2d2dff;
+      align-self: flex-start;
+    }
+    .wilde {
+      background-color: #ff4b91;
+      align-self: flex-end;
+    }
+    .toggle-bar {
+      margin: 1rem 0;
+    }
+    .toggle-button {
+      background: #222;
+      border: 1px solid #555;
+      padding: 0.5rem 1rem;
+      color: #eee;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 0.5rem;
+    }
+    .toggle-button.active {
+      background: #0f0;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <header>Einstein × Wilde | Live Epistemic Chat</header>
+  <div class="chat-wrapper">
+    <div class="toggle-bar">
+      <button class="toggle-button active" onclick="showChat('both')">Both</button>
+      <button class="toggle-button" onclick="showChat('einstein')">Einstein Only</button>
+      <button class="toggle-button" onclick="showChat('wilde')">Wilde Only</button>
+    </div>
+    <div class="chat" id="chatBox">
+      <div class="message einstein">Concepts without unambiguous observables are metaphysical phantoms. We must measure to mean.</div>
+      <div class="message wilde">How dull. I prefer a world where mirrors are smashed, and art walks out of the frame entirely.</div>
+      <div class="message einstein">Time is not absolute; clocks conspire with motion. Even simultaneity is relative to the observer's frame.</div>
+      <div class="message wilde">And yet music always arrives on time. The octave folds time in perfect recursive symmetry, no relativity required.</div>
+      <div class="message einstein">Geometry and gravity are not separate. They are unified in the metric field, g<sub>&mu;&nu;</sub>.</div>
+      <div class="message wilde">Metrics bore me unless they rhyme. Give me a field where the curvature is felt through cadence, not coordinates.</div>
+      <div class="message einstein">Epistemology demands that we ground our frames of reference. Otherwise, our logic floats unmoored in spacetime.
+      </div>
+      <div class="message wilde">But what of metaphor? It floats too—and yet it lands like a blade. Some things strike deeper than measurement.
+      </div>
+      <div class="message einstein">Then perhaps we orbit the same singularity—gravity for me, and aesthetic recursion for you.</div>
+      <div class="message wilde">Indeed. You fall into black holes. I dance on them.</div>
+    </div>
+  </div>
+
+  <script>
+    function showChat(view) {
+      const buttons = document.querySelectorAll('.toggle-button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      if (view === 'both') {
+        buttons[0].classList.add('active');
+        document.querySelectorAll('.einstein, .wilde').forEach(msg => msg.style.display = 'block');
+      } else if (view === 'einstein') {
+        buttons[1].classList.add('active');
+        document.querySelectorAll('.einstein').forEach(msg => msg.style.display = 'block');
+        document.querySelectorAll('.wilde').forEach(msg => msg.style.display = 'none');
+      } else if (view === 'wilde') {
+        buttons[2].classList.add('active');
+        document.querySelectorAll('.wilde').forEach(msg => msg.style.display = 'block');
+        document.querySelectorAll('.einstein').forEach(msg => msg.style.display = 'none');
+      }
+    }
+  </script>
+</body>
+</html>
